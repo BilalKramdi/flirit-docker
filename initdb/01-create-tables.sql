@@ -30,6 +30,8 @@ CREATE TABLE profiles (
     location_country VARCHAR(100),
     latitude DECIMAL(10, 8),
     longitude DECIMAL(11, 8),
+    distance_updated_at TIMESTAMP WITH TIME ZONE DEFAULT NULL,
+    distance INTEGER DEFAULT NULL,
     max_distance INTEGER DEFAULT 80,
     min_age INTEGER DEFAULT 18,
     max_age INTEGER DEFAULT 99,
