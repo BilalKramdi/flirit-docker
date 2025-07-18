@@ -1,23 +1,6 @@
 -- Clear existing data
 TRUNCATE TABLE swipes, matches, messages, profile_interests, profile_photos, profiles, users, interests CASCADE;
 
--- Insert comprehensive interests
-INSERT INTO interests (id, name, category) VALUES
-    (uuid_generate_v4(), 'Hiking', 'Adventure'),
-    (uuid_generate_v4(), 'Cooking', 'Lifestyle'),
-    (uuid_generate_v4(), 'Music', 'Entertainment'),
-    (uuid_generate_v4(), 'Photography', 'Creative'),
-    (uuid_generate_v4(), 'Traveling', 'Adventure'),
-    (uuid_generate_v4(), 'Reading', 'Education'),
-    (uuid_generate_v4(), 'Fitness', 'Health'),
-    (uuid_generate_v4(), 'Gaming', 'Entertainment'),
-    (uuid_generate_v4(), 'Art', 'Creative'),
-    (uuid_generate_v4(), 'Dancing', 'Entertainment'),
-    (uuid_generate_v4(), 'Swimming', 'Health'),
-    (uuid_generate_v4(), 'Movies', 'Entertainment'),
-    (uuid_generate_v4(), 'Yoga', 'Health'),
-    (uuid_generate_v4(), 'Writing', 'Creative'),
-    (uuid_generate_v4(), 'Coffee', 'Lifestyle');
 
 -- Insert 5 comprehensive users
 INSERT INTO users (id, email, password_hash, is_verified)

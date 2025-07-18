@@ -21,7 +21,7 @@ CREATE TABLE profiles (
     first_name VARCHAR(100) NOT NULL,
     bio TEXT,
     date_of_birth DATE NOT NULL,
-    gender VARCHAR(20) NOT NULL CHECK (gender IN ('male', 'female', 'non-binary', 'other')),
+    gender VARCHAR(20) NOT NULL CHECK (gender IN ('male', 'female', 'non_binary', 'other')),
     display_gender BOOLEAN DEFAULT FALSE,
     sexual_orientation VARCHAR(20) NOT NULL CHECK (sexual_orientation IN ('straight', 'gay', 'lesbian', 'bisexual', 'pansexual', 'asexual', 'queer', 'other')),
     display_orientation BOOLEAN DEFAULT FALSE,
@@ -41,7 +41,8 @@ CREATE TABLE profiles (
     CONSTRAINT check_valid_distance CHECK (max_distance > 0 AND max_distance <= 500),
     drinks_level VARCHAR(20) CHECK (drinks_level IN ('no_thank_you', 'i_dont_drink', 'i_drink_socially', 'i_drink_often', 'i_drink_daily') OR drinks_level IS NULL),
     smoke_level VARCHAR(20) CHECK (smoke_level IN ('no_thank_you', 'i_dont_smoke', 'i_smoke_occasionally', 'i_smoke_daily') OR smoke_level IS NULL),
-    looking_for VARCHAR(50) DEFAULT 'relationship' CHECK (looking_for IN ('relationship', 'casual', 'friendship', 'networking') OR looking_for IS NULL),
+    sport_level VARCHAR(20) CHECK (sport_level IN ('none', 'occasionally', 'regularly', 'intensively') OR sport_level IS NULL),
+    looking_for VARCHAR(50) DEFAULT 'relationship' CHECK (looking_for IN ('serious', 'casual', 'friendship', 'chat','community', 'selfDiscovery','networking','polyamory','other') OR looking_for IS NULL),
     is_active BOOLEAN DEFAULT TRUE,
     deleted_at TIMESTAMP WITH TIME ZONE DEFAULT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
@@ -64,7 +65,6 @@ CREATE TABLE profile_photos (
 CREATE TABLE interests (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR(100) UNIQUE NOT NULL,
-    category VARCHAR(50),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
