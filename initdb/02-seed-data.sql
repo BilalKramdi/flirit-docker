@@ -37,7 +37,7 @@ VALUES
         35,
         'i_drink_socially',
         'i_dont_smoke',
-        'relationship',
+        'serious',
         true
     ),
     (
@@ -58,7 +58,7 @@ VALUES
         40,
         'i_drink_often',
         'i_dont_smoke',
-        'relationship',
+        'serious',
         true
     ),
     (
@@ -121,7 +121,7 @@ VALUES
         38,
         'i_dont_drink',
         'i_dont_smoke',
-        'relationship',
+        'serious',
         true
     );
 
