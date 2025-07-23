@@ -2,16 +2,21 @@
 TRUNCATE TABLE swipes, matches, messages, profile_interests, profile_photos, profiles, users, interests CASCADE;
 
 
--- Insert 5 comprehensive users
-INSERT INTO users (id, email, password_hash, is_verified)
+-- Insert 10 comprehensive users
+INSERT INTO users (id, email, is_verified)
 VALUES 
-    ('user_001', 'alice.martin@example.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj/VQUmGJC3W', true),
-    ('user_002', 'bob.dupont@example.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj/VQUmGJC3W', true),
-    ('user_003', 'claire.rousseau@example.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj/VQUmGJC3W', true),
-    ('user_004', 'david.bernard@example.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj/VQUmGJC3W', true),
-    ('user_005', 'emma.lefevre@example.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj/VQUmGJC3W', true);
+    ('user_001', 'alice.martin@example.com', true),
+    ('user_002', 'bob.dupont@example.com', true),
+    ('user_003', 'claire.rousseau@example.com', true),
+    ('user_004', 'david.bernard@example.com', true),
+    ('user_005', 'emma.lefevre@example.com', true),
+    ('user_006', 'felix.moreau@example.com', true),
+    ('user_007', 'gabrielle.simon@example.com', true),
+    ('user_008', 'hugo.laurent@example.com', true),
+    ('user_009', 'isabelle.michel@example.com', true),
+    ('user_010', 'julien.garcia@example.com', true);
 
--- Insert 5 comprehensive profiles
+-- Insert 10 comprehensive profiles
 INSERT INTO profiles (
     id, user_id, first_name, bio, date_of_birth, gender, sexual_orientation, 
     interested_in_genders, location_city, location_country, latitude, longitude,
@@ -123,6 +128,111 @@ VALUES
         'i_dont_smoke',
         'serious',
         true
+    ),
+    (
+        '66666666-6666-6666-6666-666666666666', 
+        'user_006', 
+        'Félix', 
+        'Musicien et producteur de musique électronique. Je compose dans mon home studio et j''adore les festivals. La musique connecte les âmes ! 🎧🎵',
+        '1993-12-10', 
+        'male', 
+        'straight', 
+        ARRAY['female'], 
+        'Bordeaux', 
+        'France', 
+        44.8378, 
+        -0.5792,
+        120,
+        22,
+        35,
+        'i_drink_often',
+        'i_dont_smoke',
+        'casual',
+        true
+    ),
+    (
+        '77777777-7777-7777-7777-777777777777', 
+        'user_007', 
+        'Gabrielle', 
+        'Architecte passionnée par le design durable. Je rêve de créer des espaces qui respectent l''environnement. Construisons un avenir plus vert ! 🏗️🌱',
+        '1991-06-25', 
+        'female', 
+        'bisexual', 
+        ARRAY['male', 'female'], 
+        'Nantes', 
+        'France', 
+        47.2184, 
+        -1.5536,
+        90,
+        25,
+        40,
+        'i_drink_socially',
+        'i_dont_smoke',
+        'serious',
+        true
+    ),
+    (
+        '88888888-8888-8888-8888-888888888888', 
+        'user_008', 
+        'Hugo', 
+        'Vétérinaire et amoureux des animaux. Entre les consultations, je fais de la randonnée avec mon chien. Les animaux sont ma passion ! 🐕‍🦺🏔️',
+        '1989-04-17', 
+        'male', 
+        'gay', 
+        ARRAY['male'], 
+        'Strasbourg', 
+        'France', 
+        48.5734, 
+        7.7521,
+        60,
+        25,
+        45,
+        'i_dont_drink',
+        'i_dont_smoke',
+        'serious',
+        true
+    ),
+    (
+        '99999999-9999-9999-9999-999999999999', 
+        'user_009', 
+        'Isabelle', 
+        'Journaliste freelance et globe-trotteuse. J''écris sur les cultures du monde et j''adore raconter des histoires. Chaque rencontre est une aventure ! ✍️🌍',
+        '1996-01-30', 
+        'female', 
+        'straight', 
+        ARRAY['male'], 
+        'Lille', 
+        'France', 
+        50.6292, 
+        3.0573,
+        80,
+        24,
+        38,
+        'i_drink_socially',
+        'i_smoke_occasionally',
+        'casual',
+        true
+    ),
+    (
+        'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 
+        'user_010', 
+        'Julien', 
+        'Kinésithérapeute et passionné de sport. Je pratique l''escalade et le surf. J''aime aider les gens à retrouver leur bien-être physique ! 🧗‍♂️🏄‍♂️',
+        '1988-08-14', 
+        'male', 
+        'straight', 
+        ARRAY['female'], 
+        'Montpellier', 
+        'France', 
+        43.6108, 
+        3.8767,
+        70,
+        26,
+        42,
+        'i_drink_socially',
+        'i_dont_smoke',
+        'friendship',
+        true
     );
 
 -- Insert multiple profile photos for each user
@@ -150,7 +260,60 @@ VALUES
     -- Emma's photos
     ('55555555-5555-5555-5555-555555555555', 'https://images.unsplash.com/photo-1544005313-94ddf0286df2', true, 1),
     ('55555555-5555-5555-5555-555555555555', 'https://images.unsplash.com/photo-1517841905240-472988babdf9', false, 2),
-    ('55555555-5555-5555-5555-555555555555', 'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453', false, 3);
+    ('55555555-5555-5555-5555-555555555555', 'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453', false, 3),
+    
+    -- Félix's photos
+    ('66666666-6666-6666-6666-666666666666', 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e', true, 1),
+    ('66666666-6666-6666-6666-666666666666', 'https://images.unsplash.com/photo-1493666438817-866a91353ca9', false, 2),
+    ('66666666-6666-6666-6666-666666666666', 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b', false, 3),
+    
+    -- Gabrielle's photos
+    ('77777777-7777-7777-7777-777777777777', 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce', true, 1),
+    ('77777777-7777-7777-7777-777777777777', 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f', false, 2),
+    ('77777777-7777-7777-7777-777777777777', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb', false, 3),
+    
+    -- Hugo's photos
+    ('88888888-8888-8888-8888-888888888888', 'https://images.unsplash.com/photo-1463453091185-61582044d556', true, 1),
+    ('88888888-8888-8888-8888-888888888888', 'https://images.unsplash.com/photo-1542909168-82c3e7fdca5c', false, 2),
+    
+    -- Isabelle's photos
+    ('99999999-9999-9999-9999-999999999999', 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91', true, 1),
+    ('99999999-9999-9999-9999-999999999999', 'https://images.unsplash.com/photo-1525134479668-1bee5c7c6845', false, 2),
+    ('99999999-9999-9999-9999-999999999999', 'https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb', false, 3),
+    
+    -- Julien's photos
+    ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d', true, 1),
+    ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'https://images.unsplash.com/photo-1552058544-f2b08422138a', false, 2),
+    ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e', false, 3);
+
+-- Insert interests first
+INSERT INTO interests (name) VALUES 
+    ('Photography'),
+    ('Traveling'),
+    ('Hiking'),
+    ('Coffee'),
+    ('Cooking'),
+    ('Music'),
+    ('Reading'),
+    ('Movies'),
+    ('Art'),
+    ('Dancing'),
+    ('Gaming'),
+    ('Fitness'),
+    ('Writing'),
+    ('Yoga'),
+    ('Swimming'),
+    ('Technology'),
+    ('Animals'),
+    ('Nature'),
+    ('Sports'),
+    ('Festivals'),
+    ('Architecture'),
+    ('Environment'),
+    ('Journalism'),
+    ('Climbing'),
+    ('Surfing')
+ON CONFLICT (name) DO NOTHING;
 
 -- Link diverse interests to profiles
 INSERT INTO profile_interests (profile_id, interest_id)
@@ -168,37 +331,79 @@ SELECT '44444444-4444-4444-4444-444444444444', id FROM interests WHERE name IN (
 INSERT INTO profile_interests (profile_id, interest_id)
 SELECT '55555555-5555-5555-5555-555555555555', id FROM interests WHERE name IN ('Yoga', 'Dancing', 'Swimming', 'Coffee');
 
+INSERT INTO profile_interests (profile_id, interest_id)
+SELECT '66666666-6666-6666-6666-666666666666', id FROM interests WHERE name IN ('Music', 'Festivals', 'Technology', 'Dancing');
+
+INSERT INTO profile_interests (profile_id, interest_id)
+SELECT '77777777-7777-7777-7777-777777777777', id FROM interests WHERE name IN ('Architecture', 'Environment', 'Art', 'Nature');
+
+INSERT INTO profile_interests (profile_id, interest_id)
+SELECT '88888888-8888-8888-8888-888888888888', id FROM interests WHERE name IN ('Animals', 'Nature', 'Hiking', 'Sports');
+
+INSERT INTO profile_interests (profile_id, interest_id)
+SELECT '99999999-9999-9999-9999-999999999999', id FROM interests WHERE name IN ('Journalism', 'Traveling', 'Writing', 'Photography');
+
+INSERT INTO profile_interests (profile_id, interest_id)
+SELECT 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', id FROM interests WHERE name IN ('Sports', 'Climbing', 'Surfing', 'Fitness');
+
 -- Insert various swipes to create realistic interactions
 INSERT INTO swipes (swiper_id, swiped_id, is_like)
 VALUES
-    -- Alice likes Bob and Claire
+    -- Alice likes Bob, Félix and passes on David
     ('11111111-1111-1111-1111-111111111111', '22222222-2222-2222-2222-222222222222', true),
-    ('11111111-1111-1111-1111-111111111111', '33333333-3333-3333-3333-333333333333', true),
+    ('11111111-1111-1111-1111-111111111111', '66666666-6666-6666-6666-666666666666', true),
     ('11111111-1111-1111-1111-111111111111', '44444444-4444-4444-4444-444444444444', false),
     
-    -- Bob likes Alice and Emma
+    -- Bob likes Alice, Emma and passes on Claire
     ('22222222-2222-2222-2222-222222222222', '11111111-1111-1111-1111-111111111111', true),
     ('22222222-2222-2222-2222-222222222222', '55555555-5555-5555-5555-555555555555', true),
     ('22222222-2222-2222-2222-222222222222', '33333333-3333-3333-3333-333333333333', false),
     
-    -- Claire likes Alice and David
-    ('33333333-3333-3333-3333-333333333333', '11111111-1111-1111-1111-111111111111', true),
+    -- Claire likes Gabrielle and David
+    ('33333333-3333-3333-3333-333333333333', '77777777-7777-7777-7777-777777777777', true),
     ('33333333-3333-3333-3333-333333333333', '44444444-4444-4444-4444-444444444444', true),
     
-    -- David likes Claire and Emma
+    -- David likes Claire and Isabelle
     ('44444444-4444-4444-4444-444444444444', '33333333-3333-3333-3333-333333333333', true),
-    ('44444444-4444-4444-4444-444444444444', '55555555-5555-5555-5555-555555555555', false),
+    ('44444444-4444-4444-4444-444444444444', '99999999-9999-9999-9999-999999999999', true),
     
-    -- Emma likes Bob
-    ('55555555-5555-5555-5555-555555555555', '22222222-2222-2222-2222-222222222222', true);
+    -- Emma likes Bob and Julien  
+    ('55555555-5555-5555-5555-555555555555', '22222222-2222-2222-2222-222222222222', true),
+    ('55555555-5555-5555-5555-555555555555', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', true),
+    
+    -- Félix likes Alice and Gabrielle
+    ('66666666-6666-6666-6666-666666666666', '11111111-1111-1111-1111-111111111111', true),
+    ('66666666-6666-6666-6666-666666666666', '77777777-7777-7777-7777-777777777777', true),
+    
+    -- Gabrielle likes Claire, Félix and Isabelle
+    ('77777777-7777-7777-7777-777777777777', '33333333-3333-3333-3333-333333333333', true),
+    ('77777777-7777-7777-7777-777777777777', '66666666-6666-6666-6666-666666666666', true),
+    ('77777777-7777-7777-7777-777777777777', '99999999-9999-9999-9999-999999999999', true),
+    
+    -- Hugo likes other male profiles
+    ('88888888-8888-8888-8888-888888888888', '22222222-2222-2222-2222-222222222222', true),
+    ('88888888-8888-8888-8888-888888888888', '66666666-6666-6666-6666-666666666666', true),
+    
+    -- Isabelle likes David and Gabrielle
+    ('99999999-9999-9999-9999-999999999999', '44444444-4444-4444-4444-444444444444', true),
+    ('99999999-9999-9999-9999-999999999999', '77777777-7777-7777-7777-777777777777', true),
+    
+    -- Julien likes Emma and Alice
+    ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '55555555-5555-5555-5555-555555555555', true),
+    ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '11111111-1111-1111-1111-111111111111', false);
 
 -- Insert matches based on mutual likes
 INSERT INTO matches (profile1_id, profile2_id)
 VALUES 
     ('11111111-1111-1111-1111-111111111111', '22222222-2222-2222-2222-222222222222'),
-    ('11111111-1111-1111-1111-111111111111', '33333333-3333-3333-3333-333333333333'),
+    ('11111111-1111-1111-1111-111111111111', '66666666-6666-6666-6666-666666666666'),
     ('22222222-2222-2222-2222-222222222222', '55555555-5555-5555-5555-555555555555'),
-    ('33333333-3333-3333-3333-333333333333', '44444444-4444-4444-4444-444444444444');
+    ('33333333-3333-3333-3333-333333333333', '44444444-4444-4444-4444-444444444444'),
+    ('33333333-3333-3333-3333-333333333333', '77777777-7777-7777-7777-777777777777'),
+    ('44444444-4444-4444-4444-444444444444', '99999999-9999-9999-9999-999999999999'),
+    ('55555555-5555-5555-5555-555555555555', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'),
+    ('66666666-6666-6666-6666-666666666666', '77777777-7777-7777-7777-777777777777'),
+    ('77777777-7777-7777-7777-777777777777', '99999999-9999-9999-9999-999999999999');
 
 -- Insert realistic conversation messages
 INSERT INTO messages (match_id, sender_id, content)
@@ -214,8 +419,8 @@ SELECT m.id, '11111111-1111-1111-1111-111111111111', 'C''est ma passion ! J''aim
 FROM matches m WHERE m.profile1_id = '11111111-1111-1111-1111-111111111111' AND m.profile2_id = '22222222-2222-2222-2222-222222222222';
 
 INSERT INTO messages (match_id, sender_id, content)
-SELECT m.id, '33333333-3333-3333-3333-333333333333', 'Hey Alice ! J''adore tes photos de voyage, tu as l''œil artistique ! 🎨'
-FROM matches m WHERE m.profile1_id = '11111111-1111-1111-1111-111111111111' AND m.profile2_id = '33333333-3333-3333-3333-333333333333';
+SELECT m.id, '66666666-6666-6666-6666-666666666666', 'Salut Alice ! J''ai vu qu''on avait match, j''adore ton style photo ! 🎵📸'
+FROM matches m WHERE m.profile1_id = '11111111-1111-1111-1111-111111111111' AND m.profile2_id = '66666666-6666-6666-6666-666666666666';
 
 INSERT INTO messages (match_id, sender_id, content)
 SELECT m.id, '22222222-2222-2222-2222-222222222222', 'Salut Emma ! Ton profil yoga m''intrigue, tu donnes des cours ?'
@@ -225,5 +430,13 @@ INSERT INTO messages (match_id, sender_id, content)
 SELECT m.id, '55555555-5555-5555-5555-555555555555', 'Salut Bob ! Oui je donne des cours à Nice, et toi tu cuisines végétarien parfois ? 🧘‍♀️'
 FROM matches m WHERE m.profile1_id = '22222222-2222-2222-2222-222222222222' AND m.profile2_id = '55555555-5555-5555-5555-555555555555';
 
+INSERT INTO messages (match_id, sender_id, content)
+SELECT m.id, '77777777-7777-7777-7777-777777777777', 'Coucou Claire ! Ton art m''inspire beaucoup, tu exposes tes œuvres quelque part ? 🎨'
+FROM matches m WHERE m.profile1_id = '33333333-3333-3333-3333-333333333333' AND m.profile2_id = '77777777-7777-7777-7777-777777777777';
+
+INSERT INTO messages (match_id, sender_id, content)
+SELECT m.id, '44444444-4444-4444-4444-444444444444', 'Salut Isabelle ! Journaliste c''est fascinant, tu écris sur quoi en ce moment ?'
+FROM matches m WHERE m.profile1_id = '44444444-4444-4444-4444-444444444444' AND m.profile2_id = '99999999-9999-9999-9999-999999999999';
+
 -- Done
-SELECT 'Complete seed with 5 detailed users executed successfully' AS status;
+SELECT 'Complete seed with 10 detailed users executed successfully' AS status;

@@ -1,13 +1,9 @@
--- Dating App Database Schema
 
--- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- Users table (authentication data)
 CREATE TABLE users (
     id VARCHAR(128) PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
     is_verified BOOLEAN DEFAULT FALSE,
     deleted_at TIMESTAMP WITH TIME ZONE DEFAULT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
@@ -18,18 +14,21 @@ CREATE TABLE users (
 CREATE TABLE profiles (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id VARCHAR(128) REFERENCES users(id) ON DELETE CASCADE,
-    first_name VARCHAR(100) NOT NULL,
-    bio TEXT,
-    date_of_birth DATE NOT NULL,
+    first_name VARCHAR(100) DEFAULT NULL,
+    bio TEXT DEFAULT NULL,
+    date_of_birth DATE DEFAULT NULL,
     gender VARCHAR(20) NOT NULL CHECK (gender IN ('male', 'female', 'non_binary', 'other')),
     display_gender BOOLEAN DEFAULT FALSE,
-    sexual_orientation VARCHAR(20) NOT NULL CHECK (sexual_orientation IN ('straight', 'gay', 'lesbian', 'bisexual', 'pansexual', 'asexual', 'queer', 'other')),
+    sexual_orientation VARCHAR(20) CHECK (sexual_orientation IN ('straight', 'gay', 'lesbian', 'bisexual', 'pansexual', 'asexual', 'queer', 'other') OR sexual_orientation IS NULL),
     display_orientation BOOLEAN DEFAULT FALSE,
     interested_in_genders TEXT[] DEFAULT NULL,
-    location_city VARCHAR(100),
-    location_country VARCHAR(100),
-    latitude DECIMAL(10, 8),
-    longitude DECIMAL(11, 8),
+    location_city VARCHAR(100) DEFAULT NULL,
+    location_country VARCHAR(100) DEFAULT NULL,
+    latitude DECIMAL(10, 8) DEFAULT NULL,
+    longitude DECIMAL(11, 8) DEFAULT NULL,
+    astro_sign VARCHAR(20) CHECK (astro_sign IN ('aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces') OR astro_sign IS NULL),
+    height_cm INTEGER DEFAULT NULL,
+    weight_kg INTEGER DEFAULT NULL,
     distance_updated_at TIMESTAMP WITH TIME ZONE DEFAULT NULL,
     distance INTEGER DEFAULT NULL,
     max_distance INTEGER DEFAULT 80,
@@ -128,26 +127,7 @@ CREATE TABLE blocks (
     UNIQUE(blocker_id, blocked_id)
 );
 
--- Super likes table (premium feature)
-CREATE TABLE super_likes (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    sender_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
-    receiver_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    UNIQUE(sender_id, receiver_id)
-);
 
--- User subscriptions table
-CREATE TABLE subscriptions (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id VARCHAR(128) REFERENCES users(id) ON DELETE CASCADE,
-    plan_type VARCHAR(20) NOT NULL CHECK (plan_type IN ('basic', 'premium', 'gold')),
-    start_date TIMESTAMP WITH TIME ZONE NOT NULL,
-    end_date TIMESTAMP WITH TIME ZONE NOT NULL,
-    is_active BOOLEAN DEFAULT TRUE,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
 
 -- Create indexes for performance
 CREATE INDEX idx_profiles_user_id ON profiles(user_id);
@@ -328,38 +308,4 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Create function to get potential matches for a user
-CREATE OR REPLACE FUNCTION get_potential_matches(user_profile_id UUID, limit_count INTEGER DEFAULT 10)
-RETURNS TABLE (
-    profile_id UUID,
-    first_name VARCHAR(100),
-    bio TEXT,
-    distance_km FLOAT
-) AS $$
-BEGIN
-    RETURN QUERY
-    SELECT 
-        p.id,
-        p.first_name,
-        p.bio,
-        ROUND(
-            6371 * acos(
-                cos(radians(up.latitude)) * cos(radians(p.latitude)) * 
-                cos(radians(p.longitude) - radians(up.longitude)) + 
-                sin(radians(up.latitude)) * sin(radians(p.latitude))
-            )
-        )::FLOAT as distance_km
-    FROM profiles p
-    JOIN profiles up ON up.id = user_profile_id
-    WHERE p.id != user_profile_id
-      AND p.is_active = true
-      AND p.deleted_at IS NULL
-      AND up.deleted_at IS NULL
-      AND NOT EXISTS (SELECT 1 FROM swipes s WHERE s.swiper_id = user_profile_id AND s.swiped_id = p.id)
-      AND NOT is_user_blocked(user_profile_id, p.id)
-      AND EXTRACT(YEAR FROM AGE(p.date_of_birth)) BETWEEN up.min_age AND up.max_age
-      AND EXTRACT(YEAR FROM AGE(up.date_of_birth)) BETWEEN p.min_age AND p.max_age
-    ORDER BY distance_km ASC
-    LIMIT limit_count;
-END;
-$$ LANGUAGE plpgsql;
+
