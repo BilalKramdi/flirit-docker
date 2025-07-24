@@ -22,6 +22,7 @@ CREATE TABLE profiles (
     sexual_orientation VARCHAR(20) CHECK (sexual_orientation IN ('straight', 'gay', 'lesbian', 'bisexual', 'pansexual', 'asexual', 'queer', 'other') OR sexual_orientation IS NULL),
     display_orientation BOOLEAN DEFAULT FALSE,
     interested_in_genders TEXT[] DEFAULT NULL,
+    interests TEXT[] DEFAULT NULL,
     location_city VARCHAR(100) DEFAULT NULL,
     location_country VARCHAR(100) DEFAULT NULL,
     latitude DECIMAL(10, 8) DEFAULT NULL,
@@ -58,20 +59,6 @@ CREATE TABLE profile_photos (
     is_primary BOOLEAN DEFAULT FALSE,
     photo_order INTEGER DEFAULT 1,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
--- Interests table
-CREATE TABLE interests (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name VARCHAR(100) UNIQUE NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
--- Profile interests junction table
-CREATE TABLE profile_interests (
-    profile_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
-    interest_id UUID REFERENCES interests(id) ON DELETE CASCADE,
-    PRIMARY KEY (profile_id, interest_id)
 );
 
 -- Swipes table (likes/passes)
@@ -152,8 +139,6 @@ CREATE INDEX idx_blocks_blocker_id ON blocks(blocker_id);
 CREATE INDEX idx_blocks_blocked_id ON blocks(blocked_id);
 CREATE INDEX idx_blocks_composite ON blocks(blocker_id, blocked_id);
 CREATE INDEX idx_profile_photos_profile ON profile_photos(profile_id, is_primary);
-CREATE INDEX idx_profile_interests_profile ON profile_interests(profile_id);
-CREATE INDEX idx_profile_interests_interest ON profile_interests(interest_id);
 
 -- Create function to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column()

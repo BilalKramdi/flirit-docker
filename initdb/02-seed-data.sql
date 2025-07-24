@@ -1,5 +1,5 @@
 -- Clear existing data
-TRUNCATE TABLE swipes, matches, messages, profile_interests, profile_photos, profiles, users, interests CASCADE;
+TRUNCATE TABLE swipes, matches, messages, profile_photos, profiles, users CASCADE;
 
 
 -- Insert 10 comprehensive users
@@ -19,7 +19,7 @@ VALUES
 -- Insert 10 comprehensive profiles
 INSERT INTO profiles (
     id, user_id, first_name, bio, date_of_birth, gender, sexual_orientation, 
-    interested_in_genders, location_city, location_country, latitude, longitude,
+    interested_in_genders, interests, location_city, location_country, latitude, longitude,
     max_distance, min_age, max_age, drinks_level, smoke_level, looking_for,
     onboarding_completed
 )
@@ -33,6 +33,7 @@ VALUES
         'female', 
         'straight', 
         ARRAY['male'], 
+        ARRAY['photography', 'travel', 'adventure', 'nature', 'culture'], 
         'Paris', 
         'France', 
         48.8566, 
@@ -54,6 +55,7 @@ VALUES
         'male', 
         'straight', 
         ARRAY['female'], 
+        ARRAY['cooking', 'food', 'wine', 'restaurants', 'gastronomy'], 
         'Lyon', 
         'France', 
         45.7640, 
@@ -75,6 +77,7 @@ VALUES
         'female', 
         'bisexual', 
         ARRAY['male', 'female'], 
+        ARRAY['art', 'painting', 'nature', 'sunsets', 'creativity'], 
         'Marseille', 
         'France', 
         43.2965, 
@@ -96,6 +99,7 @@ VALUES
         'male', 
         'straight', 
         ARRAY['female'], 
+        ARRAY['technology', 'gaming', 'programming', 'reading', 'sports'], 
         'Toulouse', 
         'France', 
         43.6047, 
@@ -117,6 +121,7 @@ VALUES
         'female', 
         'straight', 
         ARRAY['male'], 
+        ARRAY['yoga', 'meditation', 'dance', 'wellness', 'spirituality'], 
         'Nice', 
         'France', 
         43.7102, 
@@ -138,6 +143,7 @@ VALUES
         'male', 
         'straight', 
         ARRAY['female'], 
+        ARRAY['music', 'electronic', 'festivals', 'production', 'dj'], 
         'Bordeaux', 
         'France', 
         44.8378, 
@@ -159,6 +165,7 @@ VALUES
         'female', 
         'bisexual', 
         ARRAY['male', 'female'], 
+        ARRAY['architecture', 'sustainability', 'design', 'environment', 'green'], 
         'Nantes', 
         'France', 
         47.2184, 
@@ -180,6 +187,7 @@ VALUES
         'male', 
         'gay', 
         ARRAY['male'], 
+        ARRAY['animals', 'veterinary', 'hiking', 'dogs', 'nature'], 
         'Strasbourg', 
         'France', 
         48.5734, 
@@ -201,6 +209,7 @@ VALUES
         'female', 
         'straight', 
         ARRAY['male'], 
+        ARRAY['journalism', 'writing', 'travel', 'culture', 'storytelling'], 
         'Lille', 
         'France', 
         50.6292, 
@@ -222,6 +231,7 @@ VALUES
         'male', 
         'straight', 
         ARRAY['female'], 
+        ARRAY['physiotherapy', 'climbing', 'surfing', 'sports', 'wellness'], 
         'Montpellier', 
         'France', 
         43.6108, 
@@ -286,65 +296,8 @@ VALUES
     ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'https://images.unsplash.com/photo-1552058544-f2b08422138a', false, 2),
     ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e', false, 3);
 
--- Insert interests first
-INSERT INTO interests (name) VALUES 
-    ('Photography'),
-    ('Traveling'),
-    ('Hiking'),
-    ('Coffee'),
-    ('Cooking'),
-    ('Music'),
-    ('Reading'),
-    ('Movies'),
-    ('Art'),
-    ('Dancing'),
-    ('Gaming'),
-    ('Fitness'),
-    ('Writing'),
-    ('Yoga'),
-    ('Swimming'),
-    ('Technology'),
-    ('Animals'),
-    ('Nature'),
-    ('Sports'),
-    ('Festivals'),
-    ('Architecture'),
-    ('Environment'),
-    ('Journalism'),
-    ('Climbing'),
-    ('Surfing')
-ON CONFLICT (name) DO NOTHING;
 
--- Link diverse interests to profiles
-INSERT INTO profile_interests (profile_id, interest_id)
-SELECT '11111111-1111-1111-1111-111111111111', id FROM interests WHERE name IN ('Photography', 'Traveling', 'Hiking', 'Coffee');
 
-INSERT INTO profile_interests (profile_id, interest_id)
-SELECT '22222222-2222-2222-2222-222222222222', id FROM interests WHERE name IN ('Cooking', 'Music', 'Reading', 'Movies');
-
-INSERT INTO profile_interests (profile_id, interest_id)
-SELECT '33333333-3333-3333-3333-333333333333', id FROM interests WHERE name IN ('Art', 'Photography', 'Music', 'Dancing');
-
-INSERT INTO profile_interests (profile_id, interest_id)
-SELECT '44444444-4444-4444-4444-444444444444', id FROM interests WHERE name IN ('Gaming', 'Reading', 'Fitness', 'Writing');
-
-INSERT INTO profile_interests (profile_id, interest_id)
-SELECT '55555555-5555-5555-5555-555555555555', id FROM interests WHERE name IN ('Yoga', 'Dancing', 'Swimming', 'Coffee');
-
-INSERT INTO profile_interests (profile_id, interest_id)
-SELECT '66666666-6666-6666-6666-666666666666', id FROM interests WHERE name IN ('Music', 'Festivals', 'Technology', 'Dancing');
-
-INSERT INTO profile_interests (profile_id, interest_id)
-SELECT '77777777-7777-7777-7777-777777777777', id FROM interests WHERE name IN ('Architecture', 'Environment', 'Art', 'Nature');
-
-INSERT INTO profile_interests (profile_id, interest_id)
-SELECT '88888888-8888-8888-8888-888888888888', id FROM interests WHERE name IN ('Animals', 'Nature', 'Hiking', 'Sports');
-
-INSERT INTO profile_interests (profile_id, interest_id)
-SELECT '99999999-9999-9999-9999-999999999999', id FROM interests WHERE name IN ('Journalism', 'Traveling', 'Writing', 'Photography');
-
-INSERT INTO profile_interests (profile_id, interest_id)
-SELECT 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', id FROM interests WHERE name IN ('Sports', 'Climbing', 'Surfing', 'Fitness');
 
 -- Insert various swipes to create realistic interactions
 INSERT INTO swipes (swiper_id, swiped_id, is_like)
